@@ -1,0 +1,24 @@
+# Local raw data and downloaded archives
+data/raw/**
+data/_archives/**
+
+# Keep folder placeholders so the project structure is visible in Git
+!data/raw/**/
+!data/raw/**/.gitkeep
+!data/_archives/
+!data/_archives/.gitkeep
+
+# Python/Jupyter local artifacts
+__pycache__/
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# Environment/local settings
+.env
+.env.*
+!.env.example
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
