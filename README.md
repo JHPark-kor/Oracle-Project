@@ -45,7 +45,7 @@ Raw data, processed data, downloaded archives, and report PDFs are not tracked i
 ## Collaboration Workflow
 
 1. Start from the latest `main` branch.
-2. Create a personal branch such as `feature/pjh-eda`, `feature/jaesung-eda`, or `feature/jiyoon-modeling`.
+2. Create a personal branch such as `feature/pjh-eda`, `feature/JHB-eda`, or `feature/CYS-modeling`.
 3. Work in your own branch and commit only files that belong to the project.
 4. Open a Pull Request back into `main` after the notebook, code, or documentation is ready to share.
 5. Keep data files local; use `metadata/data_metadata.md` to confirm expected file paths.
