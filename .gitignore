@@ -1,0 +1,39 @@
+﻿# Local data and generated datasets
+# Keep only folder placeholders in Git; actual data stays local/shared drive.
+data/raw/**
+data/interim/**
+data/processed/**
+data/_archives/**
+
+!data/raw/**/
+!data/raw/**/.gitkeep
+!data/interim/
+!data/interim/.gitkeep
+!data/processed/
+!data/processed/.gitkeep
+!data/_archives/
+!data/_archives/.gitkeep
+
+# Local reference report files
+docs/references/reports/**/*.pdf
+!docs/references/reports/**/
+!docs/references/reports/**/README.md
+
+# Temporary notebooks used for Git checks
+notebooks/exploratory_eda/test_git.ipynb
+
+# Python/Jupyter local artifacts
+__pycache__/
+.ipynb_checkpoints/
+.venv/
+venv/
+*.pyc
+
+# Environment/local settings
+.env
+.env.*
+!.env.example
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
