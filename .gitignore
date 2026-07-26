@@ -14,6 +14,15 @@ data/_archives/**
 !data/_archives/
 !data/_archives/.gitkeep
 
+# Generated analysis-table artifacts
+analysis_table/data/input/processed/**
+analysis_table/data/output/**
+analysis_table/image/**
+!analysis_table/data/output/
+!analysis_table/data/output/.gitkeep
+!analysis_table/image/
+!analysis_table/image/.gitkeep
+
 # Local reference report files
 docs/references/reports/**/*.pdf
 !docs/references/reports/**/
