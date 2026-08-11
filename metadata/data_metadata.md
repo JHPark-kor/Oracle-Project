@@ -14,6 +14,11 @@
 | `data/raw/preferences/source/culture_art_activity_survey/` | 국민문화예술활동조사 필요 컬럼 정리 데이터입니다. |
 | `data/raw/preferences/source/leisure_activity_survey/` | 국민여가활동조사 필요 컬럼 정리 데이터입니다. |
 | `data/raw/preferences/source/survey_design_docs/` | 문화예술/여가활동조사 조사표와 파일설계서입니다. |
+| `data/raw/surveys/leisure_2021_2025.csv` | 2021~2025 국민여가활동조사 통합 마이크로데이터입니다. 만족활동 1~3순위와 설문가중치를 선호모델에 사용합니다. |
+| `data/raw/spatial/grid_pop_access.csv` | 100m 격자코드·행정동코드·EPSG:5179 중심점·추정인구 연결표입니다. 선호모델에서는 접근성 열을 사용하지 않습니다. |
+| `data/processed/preference_analysis/population/grid_sex_age_target_population_model_input_2024.csv` | 100m 격자별 성별×모델연령 문화누리 대상자 추정인구 입력입니다. 15세 이상 공간 적용에 사용합니다. |
+| `data/processed/preference_analysis/model/` | 순위가중 다항 로지스틱 모델, 성별×연령별 2024 절대확률, 개발·시간 외 검증 결과입니다. |
+| `data/processed/preference_analysis/spatial/` | 격자·행정동·자치구별 정책 9개 분야 절대확률·잠재수요, 외적 타당성, 정합성 검증 및 인터랙티브 지도입니다. |
 | `data/raw/transport/bus_stations/source/seoul_bus_stations.csv` | 서울시 버스정류소 위치정보입니다. |
 | `data/raw/transport/subway_stations/source/seoul_subway_stations.csv` | 서울시 지하철 역사 정보입니다. |
 | `data/raw/spatial/boundary/seoul_gu_boundary.json` | 서울시 구 경계 지도 데이터입니다. |

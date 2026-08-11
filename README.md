@@ -123,5 +123,6 @@ After cloning, place the shared data files under the paths described in [`metada
 ## Key Documents
 
 - [`metadata/data_metadata.md`](metadata/data_metadata.md): source data path and description
+- [`docs/preference_analysis.md`](docs/preference_analysis.md): 만족활동 기반 선호예측·공간 적용 실행 및 해석
 - [`docs/folder_guide.md`](docs/folder_guide.md): folder-by-folder usage rules
 - [`docs/team_setup_guide.md`](docs/team_setup_guide.md): clone, branch, commit, and PR workflow
