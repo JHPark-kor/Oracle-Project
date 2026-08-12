@@ -165,7 +165,8 @@ models/preference_analysis/v1/
 
 선호를 H3SFCA 계산 내부에 반영할 때는 격자 전체 대상자 수 대신
 `potential_demand_absolute`를 분야별 `수요인구수`로 결합한 뒤 시설 유효수요와
-H3SFCA를 다시 계산해야 합니다. 상세 사용법은 배포 묶음의 `README.md`에 있습니다.
+H3SFCA를 다시 계산해야 합니다. 빠른 실행법은 배포 묶음의 `README.md`, 정확한
+입력·분야 계약은 `model_contract.json`과 `accessibility_category_contract.csv`에 있습니다.
 
 ## 외적 타당성 해석
 
