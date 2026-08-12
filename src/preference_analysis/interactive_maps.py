@@ -368,7 +368,7 @@ def _map_html(
           <span>15세 이상 추정 대상자</span><b>${{fmt(properties.t)}}명</b>
           <span>절대 선호확률</span><b>${{Number.isFinite(absolute) ? fmt(absolute * 100) + '%' : '무자료'}}</b>
           <span>절대 잠재수요</span><b>${{Number.isFinite(demand) ? fmt(demand) + '명' : '무자료'}}</b>
-          <span>9개 분야 내 구성비</span><b>${{Number.isFinite(conditional) ? fmt(conditional * 100) + '%' : '무자료'}}</b>
+          <span>{len(PREFERENCE_OUTPUT_CATEGORIES)}개 분야 내 구성비</span><b>${{Number.isFinite(conditional) ? fmt(conditional * 100) + '%' : '무자료'}}</b>
           <span>기타 절대확률</span><b>${{Number.isFinite(properties.op) ? fmt(properties.op * 100) + '%' : '무자료'}}</b>
         </div>
         <div class="popup-note">${{noData ? '15세 이상 추정 대상자가 0명인 무자료 영역입니다.' : '모든 값은 2024년 기준 추정치입니다.'}}</div>`;

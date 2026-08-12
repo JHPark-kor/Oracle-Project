@@ -151,7 +151,7 @@ class ModelFrameTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "유한한 숫자"):
             prepare_model_frame(raw)
 
-    def test_expected_ten_class_coverage_is_enforced(self) -> None:
+    def test_expected_policy_plus_other_class_coverage_is_enforced(self) -> None:
         frame = prepare_model_frame(synthetic_mapped_data())
         validate_model_class_coverage(frame)
         reduced = frame.loc[frame[TARGET_COLUMN].ne(OTHER_CATEGORY)]

@@ -32,6 +32,7 @@ from preference_analysis.spatial_demand import (  # noqa: E402
 
 def synthetic_probability() -> pd.DataFrame:
     rows: list[dict[str, object]] = []
+    probability = 1.0 / len(MODEL_CATEGORIES)
     for sex_code in (1, 2):
         for age_code in range(1, 8):
             for category in MODEL_CATEGORIES:
@@ -40,7 +41,7 @@ def synthetic_probability() -> pd.DataFrame:
                         "sex_code": sex_code,
                         "age_code": age_code,
                         "middle_category": category,
-                        "preference_probability_absolute": 0.1,
+                        "preference_probability_absolute": probability,
                     }
                 )
     return pd.DataFrame(rows)
@@ -101,9 +102,13 @@ class SpatialDemandUnitTest(unittest.TestCase):
         positive = grid.loc[grid["GRID_CD"].eq("A")]
         self.assertEqual(len(positive), len(PREFERENCE_OUTPUT_CATEGORIES))
         np.testing.assert_allclose(positive[TARGET_POPULATION_COLUMN], 14.0)
-        np.testing.assert_allclose(positive[ABSOLUTE_PROBABILITY_COLUMN], 0.1)
-        np.testing.assert_allclose(positive[POTENTIAL_DEMAND_COLUMN], 1.4)
-        np.testing.assert_allclose(positive[OTHER_DEMAND_COLUMN], 1.4)
+        expected_probability = 1.0 / len(MODEL_CATEGORIES)
+        expected_demand = 14.0 * expected_probability
+        np.testing.assert_allclose(
+            positive[ABSOLUTE_PROBABILITY_COLUMN], expected_probability
+        )
+        np.testing.assert_allclose(positive[POTENTIAL_DEMAND_COLUMN], expected_demand)
+        np.testing.assert_allclose(positive[OTHER_DEMAND_COLUMN], expected_demand)
         np.testing.assert_allclose(
             positive[CONDITIONAL_SHARE_COLUMN],
             1 / len(PREFERENCE_OUTPUT_CATEGORIES),
@@ -151,7 +156,9 @@ class SpatialDemandUnitTest(unittest.TestCase):
         probability = synthetic_probability().loc[
             lambda frame: frame["middle_category"].ne(OTHER_CATEGORY)
         ]
-        with self.assertRaisesRegex(ValueError, "10개 클래스"):
+        with self.assertRaisesRegex(
+            ValueError, f"{len(MODEL_CATEGORIES)}개 클래스"
+        ):
             build_grid_preference_demand(
                 synthetic_population(),
                 probability,

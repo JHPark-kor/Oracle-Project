@@ -2,6 +2,9 @@
 
 이 폴더는 Git에서 팀과 공유하는 정식 실행·결과 확인 노트북 모음입니다.
 
+기존처럼 `01`, `02` 순서로 Python 파일과 결과 바로가기를 보고 싶다면
+`번호별_실행모음/` 폴더를 사용합니다.
+
 ## 실행 순서
 
 1. `00_preference_pipeline_run_all.ipynb`
@@ -33,6 +36,18 @@
 - 공간 결과: `data/processed/preference_analysis/spatial/`
 - 지도: `data/processed/preference_analysis/spatial/maps/`
 - 실행 로그: `data/processed/preference_analysis/run_logs/`
+- 팀 전달용 모델 묶음: `models/preference_analysis/v1/`
+
+팀 공유용 사본과 100m 격자 결과는 Google Drive의
+[분류데이터/선호확률_모델_배포_v1](https://drive.google.com/drive/folders/1UocOuxEMJd0V_t1jdI2fiA73CpsWiZoP)에 있습니다.
+전체 파이프라인 원본 5개 묶음은
+[분류데이터/선호확률_파이프라인_입력데이터_v1](https://drive.google.com/drive/folders/1SbP5LCWb3gx6lHZd_ZUe2uQVZolssFEE)의
+`preference_pipeline_inputs_v1.zip`을 프로젝트 루트에 압축 해제하면 됩니다.
+
+다른 팀원이 재학습 없이 `predict_proba`를 실행하거나 H3SFCA에 잠재수요를
+연결할 때는 팀 전달용 모델 묶음의 `README.md`부터 확인합니다. 이 묶음에는 원시
+입력 검증이 포함된 전체 Pipeline, 입력 계약, 클래스 순서, 활동 매핑표와 예시
+입출력이 포함됩니다.
 
 `data/raw`와 `data/processed`는 용량과 개인정보·재현성 관리를 위해 Git에 올리지
 않습니다. 팀원은 원자료를 지정된 경로에 준비한 뒤 `00`을 실행해 같은 산출물을
@@ -42,5 +57,7 @@
 ## 해석 주의
 
 - 결과는 미래 희망이 아니라 **만족활동 기반 선호확률과 잠재수요 추정치**입니다.
+- 정책 출력은 8개 분야이며, 음악 활동코드 76·77은 원본 라벨을 보존한 채
+  `기타·문화누리 비대응` 확률에 포함합니다.
 - 100m 결과는 관측값이 아니므로 정책 해석에는 행정동 집계도 함께 사용합니다.
 - 접근성, 가맹점 수, 거리, 이동시간은 이 모델에 포함되지 않습니다.

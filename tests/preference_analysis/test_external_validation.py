@@ -18,6 +18,7 @@ from preference_analysis.external_validation import (  # noqa: E402
     ARTS_POPULATION_SCOPE,
     ARTS_ATTENDANCE_COLUMNS,
     CARD_VALIDATION_CROSSWALK,
+    EXCLUDED_CARD_CATEGORIES,
     build_arts_directional_validation,
     build_card_crosswalk_sensitivity_summary,
     build_card_external_validation,
@@ -46,7 +47,10 @@ class ExternalValidationTest(unittest.TestCase):
         )
         for district_index in range(25):
             district = f"자치구{district_index:02d}"
-            weights = np.arange(1, 10, dtype=float) + district_index / 100
+            weights = (
+                np.arange(1, len(PREFERENCE_OUTPUT_CATEGORIES) + 1, dtype=float)
+                + district_index / 100
+            )
             weights = weights / weights.sum()
             for category, share in zip(
                 PREFERENCE_OUTPUT_CATEGORIES, weights, strict=True
@@ -85,28 +89,35 @@ class ExternalValidationTest(unittest.TestCase):
         cls.gu = pd.DataFrame(gu_rows)
         cls.usage = pd.DataFrame(usage_rows)
 
-    def test_crosswalk_has_exact_policy_nine_categories(self) -> None:
+    def test_crosswalk_has_exact_policy_categories(self) -> None:
         crosswalk = build_validation_crosswalk_table()
         self.assertEqual(
             set(crosswalk["model_middle_category"]),
             set(PREFERENCE_OUTPUT_CATEGORIES),
         )
-        self.assertEqual(len(crosswalk), 9)
+        self.assertEqual(len(crosswalk), len(PREFERENCE_OUTPUT_CATEGORIES))
+        self.assertTrue(crosswalk["crosswalk_version"].eq("primary_semantic_v2").all())
+        self.assertNotIn("음악", set(crosswalk["model_middle_category"]))
+        self.assertIn("음악", EXCLUDED_CARD_CATEGORIES)
 
     def test_external_validation_outputs_are_complete(self) -> None:
         comparison, district, category, summary = build_card_external_validation(
             self.gu, self.usage, year=2024
         )
-        self.assertEqual(len(comparison), 25 * 9)
+        self.assertEqual(len(comparison), 25 * len(PREFERENCE_OUTPUT_CATEGORIES))
         self.assertEqual(len(district), 25)
-        self.assertEqual(len(category), 9)
+        self.assertEqual(len(category), len(PREFERENCE_OUTPUT_CATEGORIES))
         self.assertEqual(len(summary), 6)
         conditional_sums = comparison.groupby("시군구")[
             CONDITIONAL_SHARE_COLUMN
         ].sum()
         np.testing.assert_allclose(conditional_sums.to_numpy(), 1.0)
-        self.assertTrue(comparison["mapped9_transaction_coverage"].between(0, 1).all())
-        self.assertTrue(comparison["mapped9_amount_coverage"].between(0, 1).all())
+        self.assertTrue(
+            comparison["mapped_policy_transaction_coverage"].between(0, 1).all()
+        )
+        self.assertTrue(
+            comparison["mapped_policy_amount_coverage"].between(0, 1).all()
+        )
         self.assertTrue(comparison["card_geography_basis"].eq("unverified").all())
 
     def test_crosswalk_sensitivity_has_three_scenarios(self) -> None:

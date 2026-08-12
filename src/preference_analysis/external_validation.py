@@ -21,7 +21,6 @@ from .spatial_demand import (
 
 CARD_VALIDATION_CROSSWALK: dict[str, tuple[str, ...]] = {
     "도서": ("도서",),
-    "음악": ("음악",),
     "영상": ("영화", "TV"),
     "공연": ("공연",),
     "미술": ("전시", "사진관"),
@@ -41,13 +40,13 @@ CARD_VALIDATION_CROSSWALK: dict[str, tuple[str, ...]] = {
 CARD_VALIDATION_CROSSWALK_VARIANTS: dict[
     str, dict[str, tuple[str, ...]]
 ] = {
-    "primary_semantic_v1": CARD_VALIDATION_CROSSWALK,
-    "legacy_eda_craft_as_art_v1": {
+    "primary_semantic_v2": CARD_VALIDATION_CROSSWALK,
+    "legacy_eda_craft_as_art_v2": {
         **CARD_VALIDATION_CROSSWALK,
         "미술": ("전시", "공예", "사진관"),
         "문화체험": ("문화체험", "직업체험", "문화일반"),
     },
-    "conservative_exclude_craft_general_v1": {
+    "conservative_exclude_craft_general_v2": {
         **CARD_VALIDATION_CROSSWALK,
         "문화체험": ("문화체험", "직업체험"),
     },
@@ -61,7 +60,6 @@ ARTS_POPULATION_SCOPE = "전국 조사표본"
 
 CARD_COMPARABILITY = {
     "도서": ("보통", "독서 만족활동과 카드 도서구매는 동일 개념이 아님"),
-    "음악": ("보통 이하", "음악 청취·스트리밍과 유료 음악 가맹점 이용 차이"),
     "영상": ("보통 이상", "설문 영상은 영화 외 TV·OTT·스포츠매체도 포함"),
     "공연": ("높음", "가장 직접적으로 대응되는 분야"),
     "미술": ("보통", "설문은 박물관·개인 사진활동도 포함"),
@@ -72,6 +70,7 @@ CARD_COMPARABILITY = {
 }
 
 EXCLUDED_CARD_CATEGORIES = (
+    "음악",
     "철도",
     "시외고속버스",
     "국내항공",
@@ -99,7 +98,7 @@ ARTS_ATTENDANCE_COLUMNS: dict[str, tuple[str, ...]] = {
 def build_validation_crosswalk_table(
     crosswalk: dict[str, tuple[str, ...]] = CARD_VALIDATION_CROSSWALK,
     *,
-    crosswalk_version: str = "primary_semantic_v1",
+    crosswalk_version: str = "primary_semantic_v2",
 ) -> pd.DataFrame:
     rows: list[dict[str, object]] = []
     for category in PREFERENCE_OUTPUT_CATEGORIES:
@@ -149,7 +148,8 @@ def _validate_inputs(
     actual_categories = set(gu_demand["middle_category"])
     if actual_categories != set(PREFERENCE_OUTPUT_CATEGORIES):
         raise ValueError(
-            "자치구 잠재수요는 정책 9개 분야를 모두 포함해야 합니다: "
+            f"자치구 잠재수요는 정책 {len(PREFERENCE_OUTPUT_CATEGORIES)}개 분야를 "
+            "모두 포함해야 합니다: "
             f"actual={sorted(actual_categories)}"
         )
     if gu_demand.duplicated(["시군구", "middle_category"]).any():
@@ -180,12 +180,15 @@ def build_card_external_validation(
     *,
     year: int = 2024,
     crosswalk: dict[str, tuple[str, ...]] = CARD_VALIDATION_CROSSWALK,
-    crosswalk_version: str = "primary_semantic_v1",
+    crosswalk_version: str = "primary_semantic_v2",
 ) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     """Compare predicted composition with mapped card usage descriptively."""
 
     if set(crosswalk) != set(PREFERENCE_OUTPUT_CATEGORIES):
-        raise ValueError("카드 외부검증 crosswalk는 정책 9개 분야를 모두 포함해야 합니다.")
+        raise ValueError(
+            f"카드 외부검증 crosswalk는 정책 {len(PREFERENCE_OUTPUT_CATEGORIES)}개 "
+            "분야를 모두 포함해야 합니다."
+        )
     _validate_inputs(gu_demand, usage, year, crosswalk)
     year_usage = usage.loc[usage["year"].eq(year)].copy()
     rows: list[dict[str, object]] = []
@@ -209,23 +212,23 @@ def build_card_external_validation(
                 }
             )
     card = pd.DataFrame(rows)
-    card["card_mapped9_transactions"] = card.groupby("시군구", observed=False)[
+    card["card_mapped_policy_transactions"] = card.groupby("시군구", observed=False)[
         "card_transaction_count"
     ].transform("sum")
-    card["card_mapped9_amount_won"] = card.groupby("시군구", observed=False)[
+    card["card_mapped_policy_amount_won"] = card.groupby("시군구", observed=False)[
         "card_amount_won"
     ].transform("sum")
-    card["card_transaction_share_mapped9"] = (
-        card["card_transaction_count"] / card["card_mapped9_transactions"]
+    card["card_transaction_share_mapped_policy"] = (
+        card["card_transaction_count"] / card["card_mapped_policy_transactions"]
     )
-    card["card_amount_share_mapped9"] = (
-        card["card_amount_won"] / card["card_mapped9_amount_won"]
+    card["card_amount_share_mapped_policy"] = (
+        card["card_amount_won"] / card["card_mapped_policy_amount_won"]
     )
-    card["mapped9_transaction_coverage"] = (
-        card["card_mapped9_transactions"] / card["card_all_transactions"]
+    card["mapped_policy_transaction_coverage"] = (
+        card["card_mapped_policy_transactions"] / card["card_all_transactions"]
     )
-    card["mapped9_amount_coverage"] = (
-        card["card_mapped9_amount_won"] / card["card_all_amount_won"]
+    card["mapped_policy_amount_coverage"] = (
+        card["card_mapped_policy_amount_won"] / card["card_all_amount_won"]
     )
 
     predicted = gu_demand[
@@ -246,11 +249,11 @@ def build_card_external_validation(
     )
     comparison["transaction_share_difference"] = (
         comparison[CONDITIONAL_SHARE_COLUMN]
-        - comparison["card_transaction_share_mapped9"]
+        - comparison["card_transaction_share_mapped_policy"]
     )
     comparison["amount_share_difference"] = (
         comparison[CONDITIONAL_SHARE_COLUMN]
-        - comparison["card_amount_share_mapped9"]
+        - comparison["card_amount_share_mapped_policy"]
     )
 
     district_rows: list[dict[str, object]] = []
@@ -258,13 +261,13 @@ def build_card_external_validation(
         transaction_tv = 0.5 * float(
             np.abs(
                 group[CONDITIONAL_SHARE_COLUMN]
-                - group["card_transaction_share_mapped9"]
+                - group["card_transaction_share_mapped_policy"]
             ).sum()
         )
         amount_tv = 0.5 * float(
             np.abs(
                 group[CONDITIONAL_SHARE_COLUMN]
-                - group["card_amount_share_mapped9"]
+                - group["card_amount_share_mapped_policy"]
             ).sum()
         )
         district_rows.append(
@@ -273,20 +276,20 @@ def build_card_external_validation(
                 "시군구": district,
                 "transaction_spearman_rho": _spearman(
                     group[CONDITIONAL_SHARE_COLUMN],
-                    group["card_transaction_share_mapped9"],
+                    group["card_transaction_share_mapped_policy"],
                 ),
                 "amount_spearman_rho": _spearman(
                     group[CONDITIONAL_SHARE_COLUMN],
-                    group["card_amount_share_mapped9"],
+                    group["card_amount_share_mapped_policy"],
                 ),
                 "transaction_distribution_match_score": 100.0
                 * (1.0 - transaction_tv),
                 "amount_distribution_match_score": 100.0 * (1.0 - amount_tv),
-                "mapped9_transaction_coverage": float(
-                    group["mapped9_transaction_coverage"].iloc[0]
+                "mapped_policy_transaction_coverage": float(
+                    group["mapped_policy_transaction_coverage"].iloc[0]
                 ),
-                "mapped9_amount_coverage": float(
-                    group["mapped9_amount_coverage"].iloc[0]
+                "mapped_policy_amount_coverage": float(
+                    group["mapped_policy_amount_coverage"].iloc[0]
                 ),
             }
         )
@@ -301,11 +304,11 @@ def build_card_external_validation(
                 "district_count": int(group["시군구"].nunique()),
                 "absolute_probability_vs_transaction_share_spearman": _spearman(
                     group[ABSOLUTE_PROBABILITY_COLUMN],
-                    group["card_transaction_share_mapped9"],
+                    group["card_transaction_share_mapped_policy"],
                 ),
                 "absolute_probability_vs_amount_share_spearman": _spearman(
                     group[ABSOLUTE_PROBABILITY_COLUMN],
-                    group["card_amount_share_mapped9"],
+                    group["card_amount_share_mapped_policy"],
                 ),
                 "potential_demand_vs_transaction_count_spearman_size_sensitive": _spearman(
                     group[POTENTIAL_DEMAND_COLUMN],
@@ -336,33 +339,47 @@ def build_card_external_validation(
         [
             {
                 "reference_year": year,
-                "metric": "mapped9_transaction_coverage",
+                "metric": "mapped_policy_transaction_coverage",
                 "value": float(
-                    card.drop_duplicates("시군구")["card_mapped9_transactions"].sum()
+                    card.drop_duplicates("시군구")[
+                        "card_mapped_policy_transactions"
+                    ].sum()
                     / card.drop_duplicates("시군구")["card_all_transactions"].sum()
                 ),
-                "interpretation": "전체 카드 이용건수 중 설정된 crosswalk로 매핑된 정책 9개 분야 비중",
+                "interpretation": (
+                    "전체 카드 이용건수 중 설정된 crosswalk로 매핑된 정책 "
+                    f"{len(PREFERENCE_OUTPUT_CATEGORIES)}개 분야 비중"
+                ),
             },
             {
                 "reference_year": year,
-                "metric": "mapped9_amount_coverage",
+                "metric": "mapped_policy_amount_coverage",
                 "value": float(
-                    card.drop_duplicates("시군구")["card_mapped9_amount_won"].sum()
+                    card.drop_duplicates("시군구")[
+                        "card_mapped_policy_amount_won"
+                    ].sum()
                     / card.drop_duplicates("시군구")["card_all_amount_won"].sum()
                 ),
-                "interpretation": "전체 카드 이용금액 중 설정된 crosswalk로 매핑된 정책 9개 분야 비중",
+                "interpretation": (
+                    "전체 카드 이용금액 중 설정된 crosswalk로 매핑된 정책 "
+                    f"{len(PREFERENCE_OUTPUT_CATEGORIES)}개 분야 비중"
+                ),
             },
             {
                 "reference_year": year,
-                "metric": "seoul_transaction_spearman_rho_9categories",
+                "metric": "seoul_transaction_spearman_rho_policy_categories",
                 "value": _spearman(predicted_seoul, transaction_seoul),
-                "interpretation": "서울 전체 9개 분야 순위 일치 방향성",
+                "interpretation": (
+                    f"서울 전체 {len(PREFERENCE_OUTPUT_CATEGORIES)}개 분야 순위 일치 방향성"
+                ),
             },
             {
                 "reference_year": year,
-                "metric": "seoul_amount_spearman_rho_9categories",
+                "metric": "seoul_amount_spearman_rho_policy_categories",
                 "value": _spearman(predicted_seoul, amount_seoul),
-                "interpretation": "서울 전체 9개 분야 금액 순위 일치 방향성",
+                "interpretation": (
+                    f"서울 전체 {len(PREFERENCE_OUTPUT_CATEGORIES)}개 분야 금액 순위 일치 방향성"
+                ),
             },
             {
                 "reference_year": year,

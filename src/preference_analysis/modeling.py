@@ -316,7 +316,7 @@ def validate_model_class_coverage(
     *,
     context: str = "모델 입력",
 ) -> None:
-    """Require the approved ten-class target set before production training."""
+    """Require the approved policy-plus-other target set before training."""
 
     expected = set(expected_classes)
     actual = set(frame[TARGET_COLUMN].dropna().astype(str))
@@ -910,7 +910,10 @@ def build_sex_age_probability_table(
     if (policy_denominator <= 0).any() or not np.isfinite(
         policy_denominator.to_numpy(dtype=float)
     ).all():
-        raise ValueError("기타확률 때문에 정책 9개 분야 조건부 구성비를 계산할 수 없습니다.")
+        raise ValueError(
+            f"기타확률 때문에 정책 {len(PREFERENCE_OUTPUT_CATEGORIES)}개 분야 "
+            "조건부 구성비를 계산할 수 없습니다."
+        )
     long["preference_share_conditional_mnc"] = np.where(
         policy_mask,
         long["preference_probability_absolute"] / policy_denominator,
@@ -928,7 +931,10 @@ def build_sex_age_probability_table(
         group_keys, observed=False
     )["preference_share_conditional_mnc"].sum()
     if not np.allclose(conditional_sums.to_numpy(), 1.0, atol=1e-8):
-        raise ValueError("성별×연령별 정책 9개 분야 조건부 구성비 합이 1이 아닙니다.")
+        raise ValueError(
+            f"성별×연령별 정책 {len(PREFERENCE_OUTPUT_CATEGORIES)}개 분야 "
+            "조건부 구성비 합이 1이 아닙니다."
+        )
     return long.sort_values(
         ["sex_code", "age_code", TARGET_COLUMN], ignore_index=True
     )

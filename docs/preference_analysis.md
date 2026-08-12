@@ -18,11 +18,16 @@
 | 순위점수 | 1순위 3, 2순위 2, 3순위 1 |
 | 입력변수 | 성별×연령 결합코드, 수치형 조사연도 |
 | 모델 | 설문가중 단일 다항 로지스틱 회귀 |
-| 클래스 | 정책 9개 분야 + `기타·문화누리 비대응` |
+| 클래스 | 정책 8개 분야 + `기타·문화누리 비대응` |
 | 선택 설정 | 성별×연령 결합형, `C=0.1` |
 | 모델 선택 | 2022~2024 순차연도검증 50% + 2021~2024 응답자 그룹 5-Fold 50% |
 | 최종 평가 | 2021~2024 재학습 후 2025 시간 외 평가 |
 | 공간 확률 조건 | 조사연도 2024 |
+
+정책 출력 분야는 도서·영상·공연·미술·문화체험·관광지·스포츠관람·체육시설입니다.
+설문의 음악 활동(코드 76·77)은 라디오·팟캐스트·스트리밍 청취로 지역 가맹점
+수요를 직접 대표하기 어려워 원본 라벨은 보존하되 `기타·문화누리 비대응`으로
+통합합니다. 응답 행을 삭제하거나 음악 확률을 0으로 만들지는 않습니다.
 
 응답자 $i$의 분야 $c$ 유효가중치는 다음과 같습니다.
 
@@ -34,15 +39,15 @@ $$
 2·3순위 결측 시 관측된 순위점수 합으로 나누며, 동일 중분류가 여러 순위에
 나오면 점수를 합산합니다. 응답자별 유효가중치 합은 원 설문 최종가중치와 같습니다.
 
-2025 시간 외 평가의 Log Loss는 1.6279로 가중 사전확률 baseline(1.6666)보다
-2.32% 개선됐습니다. 다만 Accuracy는 두 모델 모두 약 40.61%로 같으므로, 이
-모델은 개인의 최고 선호분야 추천이 아니라 성별×연령 집단의 확률 배분에 사용합니다.
+2025 시간 외 평가 결과는 `model_score_2024_2025.csv`에 기록하며, 가중 사전확률
+baseline과 함께 Log Loss 개선 여부를 확인합니다. 이 모델은 개인의 최고 선호분야
+추천이 아니라 성별×연령 집단의 확률 배분에 사용합니다.
 
 ## 확률과 잠재수요
 
-- `preference_probability_absolute`: 기타를 포함한 10개 클래스 절대확률 $p(c)$
+- `preference_probability_absolute`: 기타를 포함한 9개 클래스 절대확률 $p(c)$
 - `other_probability_absolute`: 기타·문화누리 비대응 절대확률
-- `preference_share_conditional_mnc`: $p(c)/(1-p(other))$, 정책 9개 내부 상대구성
+- `preference_share_conditional_mnc`: $p(c)/(1-p(other))$, 정책 8개 내부 상대구성
 - `potential_demand_absolute`: 대상자 수에 절대확률을 곱한 잠재수요
 
 격자 $g$의 분야 $c$ 잠재수요는 다음과 같습니다.
@@ -52,7 +57,7 @@ D_{g,c}=\sum_{s,a}N_{g,s,a}p_{s,a,c}
 $$
 
 조건부 구성비는 비교·표시용이며 절대 잠재수요 계산에는 사용하지 않습니다.
-정책 9개 잠재수요 합이 대상자 수보다 작을 수 있으며, 차이는 기타 잠재수요입니다.
+정책 8개 잠재수요 합이 대상자 수보다 작을 수 있으며, 차이는 기타 잠재수요입니다.
 
 ## 실행 순서
 
@@ -127,7 +132,7 @@ data/processed/preference_analysis/spatial/
 ├── external_validation_2024_by_category.csv
 ├── external_validation_2024_summary.csv
 ├── external_validation_2024_crosswalk_sensitivity.csv
-├── external_validation_card_crosswalk_v1.csv
+├── external_validation_card_crosswalk_v2.csv
 ├── external_validation_arts_2024_by_sex_age.csv
 ├── external_validation_arts_2024_summary.csv
 ├── spatial_preference_run_metadata_2024.json
@@ -139,9 +144,32 @@ data/processed/preference_analysis/spatial/
 HTML은 미리 계산된 결과를 여는 정적 지도이며, 열 때 모델을 재학습하지 않습니다.
 CSV를 보존하므로 이후 접근성 결과와 `GRID_CD` 또는 행정동코드로 결합할 수 있습니다.
 
+### 팀 전달용 모델·접근성 결합 계약
+
+```text
+models/preference_analysis/v1/
+├── preference_model_pipeline.joblib
+├── model_contract.json
+├── activity_category_mapping.csv
+├── accessibility_category_contract.csv
+├── example_input.csv
+├── example_output.csv
+├── requirements.txt
+└── README.md
+```
+
+배포 Pipeline은 `sex_code`, `age_code`, `survey_year`를 검증하고
+`sex_age_code`를 자동 생성합니다. 최신 H3SFCA와는 `GRID_CD` 및 중분류로
+연결하며, 공통 8개 분야만 선호 잠재수요를 제공합니다. 접근성에만 있는 `음악`과
+`체육용품`은 0이 아니라 미산출(`NA`)입니다.
+
+선호를 H3SFCA 계산 내부에 반영할 때는 격자 전체 대상자 수 대신
+`potential_demand_absolute`를 분야별 `수요인구수`로 결합한 뒤 시설 유효수요와
+H3SFCA를 다시 계산해야 합니다. 상세 사용법은 배포 묶음의 `README.md`에 있습니다.
+
 ## 외적 타당성 해석
 
-2024년 자치구별 카드 이용건수·금액 중 설정한 crosswalk로 매핑한 정책 9개 분야를
+2024년 자치구별 카드 이용건수·금액 중 설정한 crosswalk로 매핑한 정책 8개 분야를
 연결합니다. 카드 이용건수를 주 비교값으로 사용하고, 가격 차이에 민감한 이용금액은
 보조 민감도 지표로 사용합니다.
 
@@ -162,7 +190,7 @@ CSV를 보존하므로 이후 접근성 결과와 `GRID_CD` 또는 행정동코�
 - 지도 색상 분위는 대상자 양수 지역만으로 계산한 분야별 상대 구간이므로 서로 다른
   분야의 색 농도를 직접 비교하지 않습니다.
 - 60,528개 격자를 포함한 HTML은 용량이 크고 느린 컴퓨터에서 여는 데 수 초가
-  걸릴 수 있습니다. geometry를 한 번만 저장해 18개 중복 레이어는 만들지 않습니다.
+  걸릴 수 있습니다. geometry를 한 번만 저장해 16개 중복 레이어는 만들지 않습니다.
 - 행정동 지도는 2024 추정치를 2025-06-30 단순화 경계에 코드로 결합한 표시용
   지도입니다. 격자의 행정동 소속은 기존 2024 연결표를 유지합니다.
 - 카드실적의 자치구가 이용자 거주지 기준인지 이용지 기준인지 원본만으로 확정할 수

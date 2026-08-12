@@ -18,6 +18,7 @@ from preference_analysis.mapping import (  # noqa: E402
     FUTURE_PREFERENCE_COLUMNS,
     MODEL_CATEGORIES,
     OTHER_CATEGORY,
+    POLICY_EXCLUDED_PREFERENCE_CATEGORIES,
     PREFERENCE_OUTPUT_CATEGORIES,
     SATISFACTION_RANK_COLUMNS,
     UNMODELED_PREFERENCE_CATEGORIES,
@@ -58,6 +59,19 @@ class MappingSpecTest(unittest.TestCase):
             "미산출(직접 선호라벨 부족)",
         )
         self.assertFalse(bool(sports_goods["include_in_policy_category"]))
+
+    def test_music_is_preserved_for_audit_but_routed_to_other(self) -> None:
+        self.assertEqual(len(PREFERENCE_OUTPUT_CATEGORIES), 8)
+        self.assertNotIn("음악", PREFERENCE_OUTPUT_CATEGORIES)
+        self.assertEqual(POLICY_EXCLUDED_PREFERENCE_CATEGORIES, {"음악"})
+        music = self.mapping.loc[self.mapping["activity_code"].isin((76, 77))]
+        self.assertEqual(set(music["legacy_middle_category"]), {"음악"})
+        self.assertEqual(set(music["model_middle_category"]), {OTHER_CATEGORY})
+        self.assertEqual(
+            set(music["preference_model_status"]),
+            {"정책범위 제외(기타 선택지로 통합)"},
+        )
+        self.assertFalse(music["include_in_policy_category"].astype(bool).any())
 
     def test_original_sports_category_label_is_preserved(self) -> None:
         sports = self.mapping.loc[self.mapping["activity_code"].isin((16, 18, 19))]

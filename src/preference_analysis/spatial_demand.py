@@ -77,7 +77,7 @@ def _as_numeric_finite(
 
 
 def validate_probability_input(probability: pd.DataFrame) -> pd.DataFrame:
-    """Validate and normalize the 2×7×10 sex-age probability lookup."""
+    """Validate the complete sex-age × model-category probability lookup."""
 
     probability = probability.copy()
     _require_columns(
@@ -117,7 +117,8 @@ def validate_probability_input(probability: pd.DataFrame) -> pd.DataFrame:
     actual_categories = set(probability["middle_category"].astype(str))
     if actual_categories != set(MODEL_CATEGORIES):
         raise ValueError(
-            "선호확률은 정책 9개 분야와 기타를 포함한 10개 클래스여야 합니다: "
+            f"선호확률은 정책 {len(PREFERENCE_OUTPUT_CATEGORIES)}개 분야와 기타를 "
+            f"포함한 {len(MODEL_CATEGORIES)}개 클래스여야 합니다: "
             f"actual={sorted(actual_categories)}"
         )
     expected_rows = 2 * 7 * len(MODEL_CATEGORIES)
@@ -130,7 +131,9 @@ def validate_probability_input(probability: pd.DataFrame) -> pd.DataFrame:
         ABSOLUTE_PROBABILITY_COLUMN
     ].sum()
     if not np.allclose(sums.to_numpy(), 1.0, atol=1e-8):
-        raise ValueError("성별×연령별 10개 클래스 절대확률 합이 1이 아닙니다.")
+        raise ValueError(
+            f"성별×연령별 {len(MODEL_CATEGORIES)}개 클래스 절대확률 합이 1이 아닙니다."
+        )
     return probability
 
 
@@ -216,7 +219,7 @@ def build_grid_preference_demand(
     *,
     reference_year: int = REFERENCE_YEAR,
 ) -> pd.DataFrame:
-    """Calculate policy-nine absolute potential demand for every 100m grid."""
+    """Calculate policy-category absolute potential demand for every 100m grid."""
 
     population = validate_population_input(population)
     probability = validate_probability_input(probability)
@@ -489,7 +492,8 @@ def build_spatial_validation_summary(
         "grid_policy_plus_other_equals_target",
         bool(np.isclose(policy_total + other_total, target_total, atol=atol)),
         float(policy_total + other_total - target_total),
-        "정책 9개 잠재수요와 기타 잠재수요 합의 대상자 총량 오차",
+        f"정책 {len(PREFERENCE_OUTPUT_CATEGORIES)}개 잠재수요와 기타 잠재수요 합의 "
+        "대상자 총량 오차",
     )
     add(
         "grid_category_key_unique",
@@ -520,7 +524,8 @@ def build_spatial_validation_summary(
         "grid_conditional_policy_share_sums_to_one",
         bool(conditional_error <= atol),
         conditional_error,
-        "대상자 양수 격자의 정책 9개 조건부 구성비 최대 절대오차",
+        f"대상자 양수 격자의 정책 {len(PREFERENCE_OUTPUT_CATEGORIES)}개 조건부 "
+        "구성비 최대 절대오차",
     )
 
     for name, frame, region_key in (

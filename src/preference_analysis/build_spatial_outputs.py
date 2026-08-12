@@ -31,6 +31,7 @@ from .interactive_maps import (
     write_interactive_dong_map,
     write_interactive_grid_map,
 )
+from .mapping import PREFERENCE_OUTPUT_CATEGORIES
 from .spatial_demand import (
     OTHER_DEMAND_COLUMN,
     POTENTIAL_DEMAND_COLUMN,
@@ -164,7 +165,7 @@ def main() -> None:
         sensitivity_path = (
             output_dir / "external_validation_2024_crosswalk_sensitivity.csv"
         )
-        crosswalk_path = output_dir / "external_validation_card_crosswalk_v1.csv"
+        crosswalk_path = output_dir / "external_validation_card_crosswalk_v2.csv"
         usage_quality_path = output_dir / "external_validation_usage_quality.csv"
         arts_cells_path = output_dir / "external_validation_arts_2024_by_sex_age.csv"
         arts_summary_path = output_dir / "external_validation_arts_2024_summary.csv"
@@ -184,7 +185,8 @@ def main() -> None:
         external_summary = {
             "executed": True,
             "comparison_scope": (
-                "2024년 자치구별 설정된 crosswalk로 매핑된 정책 9개 분야"
+                f"2024년 자치구별 설정된 crosswalk로 매핑된 정책 "
+                f"{len(PREFERENCE_OUTPUT_CATEGORIES)}개 분야"
             ),
             "primary_usage_metric": "transaction_count",
             "amount_role": "가격 차이에 민감한 보조 민감도 지표",
@@ -260,7 +262,10 @@ def main() -> None:
         "other_potential_demand_total": float(grid_base[OTHER_DEMAND_COLUMN].sum()),
         "accessibility_features_used": False,
         "probability_for_potential_demand": "preference_probability_absolute",
-        "conditional_share_use": "정책 9개 분야 상대구성 표시용; 잠재수요 계산에 미사용",
+        "conditional_share_use": (
+            f"정책 {len(PREFERENCE_OUTPUT_CATEGORIES)}개 분야 상대구성 표시용; "
+            "잠재수요 계산에 미사용"
+        ),
         "zero_target_grid_handling": "확률은 무자료, 잠재수요는 0; 지도에서 무자료 색상",
         "boundary_note": (
             "2024 추정치를 2025-06-30 단순화 행정동 경계에 코드로 결합해 표시; "

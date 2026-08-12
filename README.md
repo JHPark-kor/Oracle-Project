@@ -83,6 +83,7 @@ oracle_mnc_project/
 │   └── references/          # reference notes, not raw PDF storage
 ├── metadata/
 │   └── data_metadata.md     # source data catalog
+├── models/                  # reviewed lightweight model handoff bundles
 ├── notebooks/
 │   ├── exploratory_eda/     # individual/team EDA notebooks
 │   └── policy_validation_eda/
@@ -98,7 +99,10 @@ Raw data, processed data, downloaded archives, and report PDFs are not tracked i
 - Keep local data under `data/raw/`.
 - Keep intermediate or generated datasets under `data/interim/` or `data/processed/`.
 - Keep bulky reference PDFs locally or in shared storage. GitHub should contain only lightweight notes and guides.
-- Do not commit `.env`, cache files, notebook checkpoints, model files, or temporary outputs.
+- Do not commit `.env`, cache files, notebook checkpoints, ad-hoc model files, or temporary
+  outputs. An explicitly reviewed lightweight bundle under `models/` may be tracked only when
+  it contains no row-level source data and includes its input contract, class order, versions,
+  checksum, and usage guide.
 
 ## Collaboration Workflow
 
@@ -124,5 +128,6 @@ After cloning, place the shared data files under the paths described in [`metada
 
 - [`metadata/data_metadata.md`](metadata/data_metadata.md): source data path and description
 - [`docs/preference_analysis.md`](docs/preference_analysis.md): 만족활동 기반 선호예측·공간 적용 실행 및 해석
+- [`models/preference_analysis/v1/README.md`](models/preference_analysis/v1/README.md): 팀 전달용 선호모델·H3SFCA 결합 계약
 - [`docs/folder_guide.md`](docs/folder_guide.md): folder-by-folder usage rules
 - [`docs/team_setup_guide.md`](docs/team_setup_guide.md): clone, branch, commit, and PR workflow

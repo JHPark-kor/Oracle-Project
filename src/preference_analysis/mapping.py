@@ -41,7 +41,6 @@ OTHER_CATEGORY = "기타·문화누리 비대응"
 
 PREFERENCE_OUTPUT_CATEGORIES: tuple[str, ...] = (
     "도서",
-    "음악",
     "영상",
     "공연",
     "미술",
@@ -55,6 +54,12 @@ PREFERENCE_OUTPUT_CATEGORIES: tuple[str, ...] = (
 # pipeline, but the leisure survey has no defensible direct preference label.
 # They must not be emitted with a fabricated zero probability.
 UNMODELED_PREFERENCE_CATEGORIES = frozenset({"체육용품"})
+
+# Radio/podcast and streaming-listening activities do not represent demand for
+# a local, accessibility-sensitive MNC merchant.  Preserve their survey weight
+# in the residual class instead of dropping the observations or fabricating a
+# zero probability.
+POLICY_EXCLUDED_PREFERENCE_CATEGORIES = frozenset({"음악"})
 
 MODEL_CATEGORIES: tuple[str, ...] = (
     *PREFERENCE_OUTPUT_CATEGORIES,
@@ -113,7 +118,9 @@ LEGACY_ACTIVITY_CODES: dict[str, frozenset[int]] = {
 
 OUTSIDE_SCOPE_SURVEY_CATEGORIES = frozenset({"교통수단", "여행사", "분류범위외"})
 EXCLUDED_MODEL_CATEGORIES = (
-    OUTSIDE_SCOPE_SURVEY_CATEGORIES | UNMODELED_PREFERENCE_CATEGORIES
+    OUTSIDE_SCOPE_SURVEY_CATEGORIES
+    | UNMODELED_PREFERENCE_CATEGORIES
+    | POLICY_EXCLUDED_PREFERENCE_CATEGORIES
 )
 
 # Keep the original classified workbook's label in legacy_middle_category,
@@ -213,11 +220,15 @@ def build_activity_mapping(leisure_path: str | Path) -> pd.DataFrame:
                 UNMODELED_PREFERENCE_CATEGORIES
             ),
             mapping["legacy_middle_category"].isin(
+                POLICY_EXCLUDED_PREFERENCE_CATEGORIES
+            ),
+            mapping["legacy_middle_category"].isin(
                 OUTSIDE_SCOPE_SURVEY_CATEGORIES
             ),
         ],
         [
             "미산출(직접 선호라벨 부족)",
+            "정책범위 제외(기타 선택지로 통합)",
             "분석범위외(기타 선택지로 통합)",
         ],
         default="선호확률 산출",

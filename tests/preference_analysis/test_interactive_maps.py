@@ -66,6 +66,7 @@ class InteractiveMapTest(unittest.TestCase):
             self.assertIn('id="category-select"', grid_text)
             self.assertIn('id="metric-select"', grid_text)
             self.assertIn("무자료는 0%가 아닙니다", grid_text)
+            self.assertNotIn('"음악"', grid_text)
             for category in PREFERENCE_OUTPUT_CATEGORIES:
                 self.assertIn(category, grid_text)
 
@@ -89,6 +90,7 @@ class InteractiveMapTest(unittest.TestCase):
             self.assertIn("행정동 값은 100m 격자 추정치를", dong_text)
             self.assertIn("역삼1동", dong_text)
             self.assertIn("신림동", dong_text)
+            self.assertNotIn('"음악"', dong_text)
 
 
 if __name__ == "__main__":

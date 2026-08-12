@@ -18,6 +18,7 @@ import sklearn
 from .build_mapping import find_project_root
 from .mapping import (
     MODEL_CATEGORIES,
+    POLICY_EXCLUDED_PREFERENCE_CATEGORIES,
     PREFERENCE_OUTPUT_CATEGORIES,
     UNMODELED_PREFERENCE_CATEGORIES,
 )
@@ -459,21 +460,30 @@ def main() -> None:
         "unmodeled_preference_categories": sorted(
             UNMODELED_PREFERENCE_CATEGORIES
         ),
+        "policy_excluded_preference_categories": sorted(
+            POLICY_EXCLUDED_PREFERENCE_CATEGORIES
+        ),
         "unmodeled_preference_handling": (
             "체육용품은 직접 선호확률을 산출하지 않으며 0으로 대체하지 않음; "
             "설문 활동은 전체 확률 보존을 위해 기타 선택지에만 포함하고, "
             "가맹점 공급·접근성 자료의 체육용품 분류는 유지"
         ),
+        "policy_excluded_preference_handling": (
+            "음악의 라디오·팟캐스트 및 스트리밍 청취는 지역 가맹점 접근성 수요를 "
+            "직접 대표하지 않아 정책 출력에서 제외하고 기타 선택지에 통합"
+        ),
         "probability_definitions": {
             "preference_probability": (
-                "하위호환을 위한 10개 클래스 절대확률"
+                f"하위호환을 위한 {len(MODEL_CATEGORIES)}개 클래스 절대확률"
             ),
             "preference_probability_absolute": (
-                "정책 9개 분야와 기타를 모두 보존한 절대확률 p(c)"
+                f"정책 {len(PREFERENCE_OUTPUT_CATEGORIES)}개 분야와 기타를 모두 보존한 "
+                "절대확률 p(c)"
             ),
             "other_probability_absolute": "기타·문화누리 비대응 절대확률",
             "preference_share_conditional_mnc": (
-                "정책 9개 분야 내 조건부 구성비 p(c)/(1-p(other)); "
+                f"정책 {len(PREFERENCE_OUTPUT_CATEGORIES)}개 분야 내 조건부 구성비 "
+                "p(c)/(1-p(other)); "
                 "절대 잠재수요 계산에 사용하지 않음"
             ),
         },
