@@ -1,0 +1,55 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Preference 1 - Validate mapping",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "src.preference_analysis.build_mapping",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "args": ["--project-root", "${workspaceFolder}"]
+    },
+    {
+      "name": "Preference 2 - Train and validate model",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "src.preference_analysis.train_model",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "args": ["--project-root", "${workspaceFolder}"]
+    },
+    {
+      "name": "Preference 3 - Align grid population",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "src.preference_analysis.align_population",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "args": ["--project-root", "${workspaceFolder}"]
+    },
+    {
+      "name": "Preference 4 - Build spatial outputs and maps",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "src.preference_analysis.build_spatial_outputs",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "args": ["--project-root", "${workspaceFolder}"]
+    },
+    {
+      "name": "Preference tests",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "pytest",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "args": ["tests/preference_analysis", "-q"]
+    }
+  ]
+}

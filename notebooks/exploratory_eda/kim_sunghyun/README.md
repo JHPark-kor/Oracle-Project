@@ -5,6 +5,12 @@
 ```text
 notebooks/exploratory_eda/kim_sunghyun/
 ├── README.md
+├── machine_learning/
+│   ├── 00_preference_pipeline_run_all.ipynb
+│   ├── 01_preference_results_overview.ipynb
+│   ├── 02_multinomial_preference_model.ipynb
+│   ├── 03_spatial_preference_application.ipynb
+│   └── README.md
 ├── run_kim_sunghyun_eda.py
 ├── _common.py
 ├── eda_01_annual_usage_diversity.py
@@ -17,6 +23,14 @@ notebooks/exploratory_eda/kim_sunghyun/
 - 공통 원자료 복원·품질검사·저장 기능: `_common.py`
 - 분석별 계산·결과표·그래프: `eda_01`~`eda_04`
 - 로컬 결과: `data/processed/kim_sunghyun_card_usage_supply_gap_eda/`
+
+## 수요·선호 머신러닝 노트북
+
+`machine_learning/`은 만족활동 기반 선호모델과 100m·행정동·자치구 잠재수요를
+실행하고 확인하는 Git 공유용 폴더입니다. `00`을 Run All하면 전체 결과와 지도를
+재생성하고, `01`은 이미 생성된 핵심 결과만 빠르게 보여줍니다. `02`와 `03`은 각각
+모델 및 공간 적용의 상세 근거를 설명합니다. 실행 순서와 결과 경로는
+`machine_learning/README.md`를 참고합니다.
 
 원본 Excel 두 개는 전체 실행 중 각각 한 번만 읽습니다. 데이터 품질검사, 2021~2023년
 원본 행 복원, 2025년 중복 발급금액 열 확인, 가맹점 중복 제거는 `_common.py`에서
