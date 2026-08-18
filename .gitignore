@@ -26,7 +26,9 @@ image/
 
 # Generated website/dashboard/presentation assets
 docs/assets/
-docs/share/
+docs/share/*
+!docs/share/
+!docs/share/mnc_dashboard_share.zip
 docs/mnc_dashboard*.html
 codex_build/
 *.inspect.ndjson

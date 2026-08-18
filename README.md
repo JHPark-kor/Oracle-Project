@@ -2,7 +2,13 @@
 
 문화누리카드 이용 데이터, 가맹점 데이터, 인구·교통·공간 데이터, 문화시설 선호도 데이터를 연결해 서울시 문화복지 접근성과 정책 우선지역을 분석한 최종 코드 모음입니다.
 
-이 GitHub는 발표장에서 QR 코드로 접속했을 때 프로젝트 목표, 분석 워크플로우, 주제별 코드를 빠르게 확인하기 위한 첫 화면입니다. 원천 데이터, 중간 산출물, 이미지 output, 발표자료 원본은 저장소에 포함하지 않습니다.
+## Dashboard Demo
+
+대시보드 시연을 원한다면 다음을 클릭해서 저장 후 실행하세요.
+
+[대시보드 공유 파일 다운로드](https://github.com/JHPark-kor/Oracle-Project/raw/main/docs/share/mnc_dashboard_share.zip)
+
+압축을 해제한 뒤 `mnc_dashboard_share.html`을 브라우저에서 열면 됩니다.
 
 ## Project Goal
 
@@ -67,7 +73,9 @@ oracle_mnc_project/
 │   └── data_metadata.md
 ├── docs/
 │   ├── folder_guide.md
-│   └── team_setup_guide.md
+│   ├── team_setup_guide.md
+│   └── share/
+│       └── mnc_dashboard_share.zip
 ├── data/
 │   ├── raw/
 │   ├── interim/
@@ -167,6 +175,7 @@ oracle_mnc_project/
 - 기존 작업 중 사용한 `analysis_table/` 폴더는 로컬 데이터 보관 위치로만 남기고, 최종 GitHub 구조에서는 제외합니다.
 - 일부 notebook의 `analysis_table/data/...` 참조는 기존 로컬 데이터 경로와의 실행 호환을 위한 것이며, 해당 데이터는 추적하지 않습니다.
 - 노트북 output은 커밋하지 않습니다. 결과 이미지는 발표자료나 별도 공유 폴더에서 관리합니다.
+- 단, 발표 시연용 최종 대시보드는 `docs/share/mnc_dashboard_share.zip`만 예외적으로 포함합니다.
 
 ## Getting Started
 
