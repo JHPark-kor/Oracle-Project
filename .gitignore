@@ -1,27 +1,43 @@
-﻿# Local data and generated datasets
-# Keep only folder placeholders in Git; actual data stays local/shared drive.
-data/raw/**
-data/interim/**
-data/processed/**
-data/_archives/**
-
+# Local data and generated datasets
+# Keep source data and analysis outputs outside Git.
+data/**
+!data/
+!data/raw/
 !data/raw/**/
 !data/raw/**/.gitkeep
 !data/interim/
 !data/interim/.gitkeep
 !data/processed/
 !data/processed/.gitkeep
-!data/_archives/
-!data/_archives/.gitkeep
 
-# Generated analysis-table artifacts
-analysis_table/data/input/processed/**
-analysis_table/data/output/**
-analysis_table/image/**
-!analysis_table/data/output/
-!analysis_table/data/output/.gitkeep
-!analysis_table/image/
-!analysis_table/image/.gitkeep
+# Legacy local data location after moving code to notebooks/table_design.
+analysis_table/
+
+# Notebook-generated artifacts
+**/OUTPUT/
+**/IMAGE/
+**/output/
+**/outputs/
+notebooks/**/data/
+notebooks/**/reference/
+output/
+outputs/
+image/
+
+# Generated website/dashboard/presentation assets
+docs/assets/
+docs/share/
+docs/mnc_dashboard*.html
+codex_build/
+*.inspect.ndjson
+후보지_추천_알고리즘_설명도*
+
+# Local downloaded archives and one-off transfer files
+100M_20대_인구수/
+transfers.txt
+
+# Scripts excluded from the final presentation code collection
+scripts/
 
 # Local reference report files
 docs/references/reports/**/*.pdf
@@ -44,5 +60,6 @@ venv/
 !.env.example
 
 # OS/editor noise
+.vscode/
 .DS_Store
 Thumbs.db

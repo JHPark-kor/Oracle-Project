@@ -26,4 +26,4 @@
 
 - GitHub에는 실제 데이터 파일이 아니라 폴더 구조와 메타데이터만 올립니다.
 - `Reports/`와 `mnc_package_reports/`에 중복으로 있던 PDF는 `mnc_package_reports/` 기준으로 정리했습니다.
-- 팀원은 이 문서의 경로와 동일하게 데이터를 배치한 뒤 notebook과 `src/` 코드를 실행합니다.
+- 팀원은 이 문서의 경로와 동일하게 데이터를 배치한 뒤 `notebooks/`의 주제별 코드를 실행합니다.

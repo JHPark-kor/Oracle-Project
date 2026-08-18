@@ -1,1 +1,1 @@
-analysis_table/data/input/**/*.shp filter=lfs diff=lfs merge=lfs -text
+# No data files are tracked in the final code collection.
