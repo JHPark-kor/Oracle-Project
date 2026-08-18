@@ -4,11 +4,13 @@
 
 ## Dashboard Demo
 
-대시보드 시연을 원한다면 다음을 클릭해서 저장 후 실행하세요.
+대시보드 시연을 원한다면 아래 파일을 저장 후 실행하세요.
 
-[대시보드 공유 파일 다운로드](https://github.com/JHPark-kor/Oracle-Project/raw/main/docs/share/mnc_dashboard_share.zip)
+📥 다운로드: [대시보드 공유 파일](https://github.com/JHPark-kor/Oracle-Project/raw/main/docs/share/mnc_dashboard_share.zip)
 
-압축을 해제한 뒤 `mnc_dashboard_share.html`을 브라우저에서 열면 됩니다.
+🖥️ 실행 방법: 압축을 해제한 뒤 `mnc_dashboard_share.html`을 브라우저에서 열면 됩니다.
+
+📄 발표 자료: 최종 발표자료 PDF 업로드 예정
 
 ## Project Goal
 
