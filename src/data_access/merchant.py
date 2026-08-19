@@ -9,7 +9,7 @@ from typing import Any
 
 import pandas as pd
 
-from notebooks.exploratory_eda.kim_sunghyun._common import (
+from notebooks.eda._common import (
     MERCHANT_USAGE_CATEGORY_MAP,
     load_merchant_data,
 )

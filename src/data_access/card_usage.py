@@ -8,7 +8,7 @@ from typing import Any
 
 import pandas as pd
 
-from notebooks.exploratory_eda.kim_sunghyun._common import (
+from notebooks.eda._common import (
     AGE_COLUMNS,
     CATEGORIES,
     MERCHANT_USAGE_CATEGORY_MAP,
@@ -361,7 +361,7 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
-from notebooks.exploratory_eda.kim_sunghyun._common import AGE_COLUMNS, CATEGORIES
+from notebooks.eda._common import AGE_COLUMNS, CATEGORIES
 
 
 PIPELINE_NAME = "card_usage_2021_2025_raw27_to_mid13_v2"

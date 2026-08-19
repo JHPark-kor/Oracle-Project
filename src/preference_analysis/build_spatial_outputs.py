@@ -14,7 +14,7 @@ import geopandas as gpd
 import pandas as pd
 import sklearn
 
-from notebooks.exploratory_eda.kim_sunghyun._common import load_usage_data
+from notebooks.eda._common import load_usage_data
 
 from .build_mapping import find_project_root
 from .external_validation import (

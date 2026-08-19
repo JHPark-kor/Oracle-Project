@@ -84,7 +84,7 @@ result = predict_probability_frame(model, input_df)
 노트북 경로:
 
 ```text
-notebooks/exploratory_eda/kim_sunghyun/machine_learning/
+notebooks/preference/ML/satisfaction_weighted_pipeline/
 00_preference_pipeline_run_all.ipynb
 ```
 

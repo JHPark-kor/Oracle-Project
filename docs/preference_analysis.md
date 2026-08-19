@@ -92,10 +92,10 @@ Preference tests
 노트북만으로 전체 파이프라인을 실행하거나 결과를 확인하려면 다음 순서를 사용합니다.
 
 ```text
-notebooks/exploratory_eda/kim_sunghyun/machine_learning/00_preference_pipeline_run_all.ipynb
-notebooks/exploratory_eda/kim_sunghyun/machine_learning/01_preference_results_overview.ipynb
-notebooks/exploratory_eda/kim_sunghyun/machine_learning/02_multinomial_preference_model.ipynb
-notebooks/exploratory_eda/kim_sunghyun/machine_learning/03_spatial_preference_application.ipynb
+notebooks/preference/ML/satisfaction_weighted_pipeline/00_preference_pipeline_run_all.ipynb
+notebooks/preference/ML/satisfaction_weighted_pipeline/01_preference_results_overview.ipynb
+notebooks/preference/ML/satisfaction_weighted_pipeline/02_multinomial_preference_model.ipynb
+notebooks/preference/ML/satisfaction_weighted_pipeline/03_spatial_preference_application.ipynb
 ```
 
 `00`은 매핑→모델→인구 정렬→공간 결과·지도→테스트를 순서대로 재실행합니다.

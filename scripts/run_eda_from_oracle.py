@@ -7,7 +7,7 @@ from pathlib import Path
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-EDA_DIR = PROJECT_ROOT / "notebooks/exploratory_eda/kim_sunghyun"
+EDA_DIR = PROJECT_ROOT / "notebooks/eda"
 for path in (PROJECT_ROOT, EDA_DIR):
     if str(path) not in sys.path:
         sys.path.insert(0, str(path))
