@@ -19,8 +19,8 @@ from _common import (
 )
 
 
-TABLE_NAME = "kim_sunghyun_district_five_year_utilization_supply_diagnostic.csv"
-FIGURE_NAME = "kim_sunghyun_02_district_five_year_utilization_supply_diagnostic.png"
+TABLE_NAME = "district_five_year_utilization_supply_diagnostic.csv"
+FIGURE_NAME = "02_district_five_year_utilization_supply_diagnostic.png"
 
 LABELED_REVIEW_TYPES = {
     "지속 저이용·저공급 검토",

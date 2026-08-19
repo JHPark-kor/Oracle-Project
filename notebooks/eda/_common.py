@@ -1,4 +1,4 @@
-"""Shared data loading, validation, and output helpers for Kim Sunghyun's EDA."""
+"""Shared data loading, validation, and output helpers for Culture Nuri Card EDA."""
 
 from __future__ import annotations
 
@@ -131,7 +131,7 @@ def default_paths(project_root: Path | None = None) -> dict[str, Path]:
         / "data/raw/mnc_card/mnc_seoul_usage_issuance_2021_2025.xlsx",
         "merchant_file": root
         / "data/raw/merchants/source/mnc_seoul_offline_merchants_20260706.xlsx",
-        "output_dir": root / "notebooks/eda",
+        "output_dir": root / "data/processed/card_usage_supply_gap_eda",
     }
 
 
@@ -139,8 +139,8 @@ def ensure_output_dirs(output_dir: str | Path) -> tuple[Path, Path]:
     """Create and return the table and figure output directories."""
 
     base = Path(output_dir)
-    table_dir = base / "OUTPUT"
-    figure_dir = base / "IMAGE"
+    table_dir = base / "tables"
+    figure_dir = base / "figures"
     table_dir.mkdir(parents=True, exist_ok=True)
     figure_dir.mkdir(parents=True, exist_ok=True)
     return table_dir, figure_dir
@@ -202,7 +202,7 @@ def save_figure_with_source_metadata(
         dpi=180,
         bbox_inches="tight",
         metadata={
-            "Author": "Kim Sunghyun / Oracle-Project",
+            "Author": "Oracle-Project",
             "Source": source_urls,
             "Description": (
                 "Culture Nuri Card EDA. Exact local source-file checksums and "

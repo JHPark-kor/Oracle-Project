@@ -1,4 +1,4 @@
-# 김성현 문화누리카드 EDA 실행 안내
+# 문화누리카드 EDA 실행 안내
 
 ## 폴더 구조
 
@@ -10,9 +10,6 @@ notebooks/eda/
 │   ├── kosis_existing_data_comparison.md
 │   ├── kosis_recommended_downloads.md
 │   └── kosis_search_log.md
-├── IMAGE/
-├── OUTPUT/
-├── reference/
 ├── run_kim_sunghyun_eda.py
 ├── _common.py
 ├── eda_01_annual_usage_diversity.py
@@ -21,7 +18,7 @@ notebooks/eda/
 └── eda_04_supply_utilization_sensitivity.py
 ```
 
-`access` 폴더와 맞춰 주요 표는 `OUTPUT`, 주요 이미지는 `IMAGE`에 저장합니다.
+결과는 `data/processed/card_usage_supply_gap_eda/`에 저장합니다.
 
 ## 실행
 
@@ -30,6 +27,9 @@ notebooks/eda/
 ```bash
 python notebooks/eda/run_kim_sunghyun_eda.py
 ```
+
+이 명령은 기존 로컬 파일을 사용합니다. Oracle에서 같은 EDA를 실행하려면
+[`docs/oci_quickstart.md`](../../docs/oci_quickstart.md)의 `run_eda_from_oracle.py` 안내를 따릅니다.
 
 ## 입력 파일
 
@@ -50,18 +50,18 @@ data/raw/merchants/source/mnc_seoul_offline_merchants_20260706.xlsx
 ## 생성 결과
 
 ```text
-notebooks/eda/OUTPUT/
-├── kim_sunghyun_annual_card_issuance_usage_utilization_metrics.csv
-├── kim_sunghyun_annual_category_concentration_diversity_metrics.csv
-├── kim_sunghyun_district_five_year_utilization_supply_diagnostic.csv
-├── kim_sunghyun_category_usage_supply_gap_candidates.csv
-└── kim_sunghyun_merchant_supply_utilization_correlation_sensitivity.csv
-
-notebooks/eda/IMAGE/
-├── kim_sunghyun_01_annual_card_usage_and_category_diversity_trends.png
-├── kim_sunghyun_02_district_five_year_utilization_supply_diagnostic.png
-├── kim_sunghyun_03_category_usage_supply_gap_heatmap.png
-└── kim_sunghyun_04_merchant_supply_utilization_correlation_sensitivity.png
+data/processed/card_usage_supply_gap_eda/
+├── figures/
+│   ├── 01_annual_card_usage_and_category_diversity_trends.png
+│   ├── 02_district_five_year_utilization_supply_diagnostic.png
+│   ├── 03_category_usage_supply_gap_heatmap.png
+│   └── 04_merchant_supply_utilization_correlation_sensitivity.png
+└── tables/
+    ├── annual_card_issuance_usage_utilization_metrics.csv
+    ├── annual_category_concentration_diversity_metrics.csv
+    ├── district_five_year_utilization_supply_diagnostic.csv
+    ├── category_usage_supply_gap_candidates.csv
+    └── merchant_supply_utilization_correlation_sensitivity.csv
 ```
 
 ## 해석 주의

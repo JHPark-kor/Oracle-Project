@@ -78,6 +78,10 @@ oracle_mnc_project/
 │   ├── raw/
 │   ├── interim/
 │   └── processed/
+├── models/                  # 검토된 경량 모델 전달 산출물
+├── scripts/                 # 로컬·Oracle 적재·검증 실행 코드
+├── src/                     # 분석 로직과 데이터 접근 계층
+├── tests/                   # 자동 검증
 └── notebooks/
     ├── table_design/
     │   └── docs/
@@ -174,6 +178,12 @@ oracle_mnc_project/
 - 일부 notebook의 `analysis_table/data/...` 참조는 기존 로컬 데이터 경로와의 실행 호환을 위한 것이며, 해당 데이터는 추적하지 않습니다.
 - 노트북 output은 커밋하지 않습니다. 결과 이미지는 발표자료나 별도 공유 폴더에서 관리합니다.
 - 단, 발표 시연용 최종 대시보드는 `docs/share/mnc_dashboard_share.zip`만 예외적으로 포함합니다.
+- `.env`, Wallet, 비밀번호, OCI 인증 파일은 절대 Git에 커밋하지 않습니다.
+- `models/`에는 행 단위 원본 없이 입력 계약·클래스 순서·버전·체크섬을 갖춘 검토된 경량 산출물만 두어야 합니다.
+
+## Data Backend
+
+기존 로컬 파일 방식이 기본입니다. `DATA_BACKEND=oracle`을 명시한 실행에서만 Oracle MNCDEV를 사용합니다. 두 방식은 같은 전처리·계산 로직을 공유하며, Oracle 이전 전후 결과는 보존 검증으로 비교합니다.
 
 ## Getting Started
 
@@ -191,6 +201,9 @@ pip install -r requirements.txt
 
 | Document | Purpose |
 | --- | --- |
+| [`docs/oci_quickstart.md`](docs/oci_quickstart.md) | OCI MNCDEV·Wallet·VS Code 연결과 로컬/Oracle 전환 방법 |
 | [`metadata/data_metadata.md`](metadata/data_metadata.md) | 원천 데이터 경로와 설명 |
 | [`docs/folder_guide.md`](docs/folder_guide.md) | 폴더별 사용 기준과 GitHub 제외 항목 |
 | [`docs/team_setup_guide.md`](docs/team_setup_guide.md) | 협업 및 실행 환경 가이드 |
+| [`docs/preference_analysis.md`](docs/preference_analysis.md) | 만족활동 기반 선호예측·공간 적용 실행 및 해석 |
+| [`models/preference_analysis/v1/README.md`](models/preference_analysis/v1/README.md) | 팀 전달용 선호모델·H3SFCA 결합 계약 |

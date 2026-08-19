@@ -17,8 +17,8 @@ from _common import (
 )
 
 
-TABLE_NAME = "kim_sunghyun_merchant_supply_utilization_correlation_sensitivity.csv"
-FIGURE_NAME = "kim_sunghyun_04_merchant_supply_utilization_correlation_sensitivity.png"
+TABLE_NAME = "merchant_supply_utilization_correlation_sensitivity.csv"
+FIGURE_NAME = "04_merchant_supply_utilization_correlation_sensitivity.png"
 SUPPLY_METRIC = "merchants_per_1000_issued"
 USAGE_METRIC = "issued_utilization_pct"
 DEFAULT_PERMUTATIONS = 5_000

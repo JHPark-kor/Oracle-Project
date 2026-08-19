@@ -20,9 +20,9 @@ from _common import (
 )
 
 
-ANNUAL_TABLE_NAME = "kim_sunghyun_annual_card_issuance_usage_utilization_metrics.csv"
-DIVERSITY_TABLE_NAME = "kim_sunghyun_annual_category_concentration_diversity_metrics.csv"
-FIGURE_NAME = "kim_sunghyun_01_annual_card_usage_and_category_diversity_trends.png"
+ANNUAL_TABLE_NAME = "annual_card_issuance_usage_utilization_metrics.csv"
+DIVERSITY_TABLE_NAME = "annual_category_concentration_diversity_metrics.csv"
+FIGURE_NAME = "01_annual_card_usage_and_category_diversity_trends.png"
 DIRECT_CULTURE_CATEGORIES = ("공연", "전시", "문화체험")
 
 ANNUAL_OUTPUT_COLUMNS = [

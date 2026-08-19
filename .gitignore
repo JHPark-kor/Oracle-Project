@@ -60,6 +60,17 @@ venv/
 .env
 .env.*
 !.env.example
+.oci_*.local.json
+.oci/
+Wallet_*.zip
+cwallet.sso
+ewallet.p12
+ewallet.pem
+keystore.jks
+ojdbc.properties
+sqlnet.ora
+tnsnames.ora
+truststore.jks
 
 # OS/editor noise
 .vscode/
