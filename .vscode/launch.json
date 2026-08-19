@@ -2,6 +2,243 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "OCI 01 - Check local environment",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/check_oci_environment.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "args": ["--settings-only"],
+      "env": {
+        "DATA_BACKEND": "local",
+        "OCI_PROFILE": "MNC_SETUP",
+        "OCI_AUTH": "security_token",
+        "OCI_REGION": "ap-tokyo-1"
+      }
+    },
+    {
+      "name": "OCI 02 - Check MNCDEV connection",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/check_oracle_database.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "envFile": "${workspaceFolder}/.env.oci.local"
+    },
+    {
+      "name": "OCI 03 - Bootstrap MNC_APP schema",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/bootstrap_oracle_database.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "envFile": "${workspaceFolder}/.env.oci.local"
+    },
+    {
+      "name": "OCI 04 - Upload card raw file",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/upload_oci_raw_data.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "envFile": "${workspaceFolder}/.env.oci.local"
+    },
+    {
+      "name": "OCI 05 - Load card usage to Oracle",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/load_card_usage_oracle.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "envFile": "${workspaceFolder}/.env.oci.local"
+    },
+    {
+      "name": "OCI 06 - Verify card local vs Oracle",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/verify_card_usage_oracle.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "envFile": "${workspaceFolder}/.env.oci.local"
+    },
+    {
+      "name": "OCI 07 - Run EDA with Oracle card data",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/run_eda_from_oracle.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "envFile": "${workspaceFolder}/.env.oci.local"
+    },
+    {
+      "name": "OCI 08 - Upload merchant raw file",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/upload_oci_raw_data.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "envFile": "${workspaceFolder}/.env.oci.local",
+      "args": [
+        "--source",
+        "${workspaceFolder}/data/raw/merchants/source/mnc_seoul_offline_merchants_20260706.xlsx",
+        "--object-name",
+        "landing/merchants/2026-07-06/mnc_seoul_offline_merchants_20260706.xlsx",
+        "--receipt",
+        "${workspaceFolder}/.oci_merchant_upload_receipt.local.json",
+        "--reference-period",
+        "2026-07-06"
+      ]
+    },
+    {
+      "name": "OCI 09 - Load merchant snapshot to Oracle",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/load_merchant_oracle.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "envFile": "${workspaceFolder}/.env.oci.local"
+    },
+    {
+      "name": "OCI 10 - Verify merchant local vs Oracle",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/verify_merchant_oracle.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "envFile": "${workspaceFolder}/.env.oci.local"
+    },
+    {
+      "name": "OCI 11 - Run EDA with Oracle card and merchant",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/run_eda_from_oracle.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "envFile": "${workspaceFolder}/.env.oci.local",
+      "args": ["--merchant-backend", "oracle"]
+    },
+    {
+      "name": "OCI 12 - Upload grid population inputs",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/upload_grid_population_inputs.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "envFile": "${workspaceFolder}/.env.oci.local"
+    },
+    {
+      "name": "OCI 13 - Load grid population to Oracle",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/load_grid_population_oracle.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "envFile": "${workspaceFolder}/.env.oci.local"
+    },
+    {
+      "name": "OCI 14 - Verify grid population local vs Oracle",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/verify_grid_population_oracle.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "envFile": "${workspaceFolder}/.env.oci.local"
+    },
+    {
+      "name": "OCI 15 - Check preference grid input from Oracle",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/check_grid_model_input_oracle.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "envFile": "${workspaceFolder}/.env.oci.local"
+    },
+    {
+      "name": "OCI 16 - Upload preference model and outputs",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/upload_preference_outputs.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "envFile": "${workspaceFolder}/.env.oci.local"
+    },
+    {
+      "name": "OCI 17 - Load preference outputs to Oracle",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/load_preference_oracle.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "envFile": "${workspaceFolder}/.env.oci.local"
+    },
+    {
+      "name": "OCI 18 - Verify preference local vs Oracle",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/verify_preference_oracle.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "envFile": "${workspaceFolder}/.env.oci.local"
+    },
+    {
+      "name": "OCI 19 - Upload existing H3SFCA baseline",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/upload_accessibility_outputs.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "envFile": "${workspaceFolder}/.env.oci.local"
+    },
+    {
+      "name": "OCI 20 - Load existing H3SFCA baseline to Oracle",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/load_accessibility_oracle.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "envFile": "${workspaceFolder}/.env.oci.local"
+    },
+    {
+      "name": "OCI 21 - Verify H3SFCA local vs Oracle",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/verify_accessibility_oracle.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "envFile": "${workspaceFolder}/.env.oci.local"
+    },
+    {
+      "name": "OCI 22 - Check full project Oracle readiness",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/check_oracle_project_ready.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "envFile": "${workspaceFolder}/.env.oci.local"
+    },
+    {
       "name": "Preference 1 - Validate mapping",
       "type": "debugpy",
       "request": "launch",

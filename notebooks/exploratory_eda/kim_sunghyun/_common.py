@@ -132,7 +132,7 @@ def default_paths(project_root: Path | None = None) -> dict[str, Path]:
         "merchant_file": root
         / "data/raw/merchants/source/mnc_seoul_offline_merchants_20260706.xlsx",
         "output_dir": root
-        / "data/processed/kim_sunghyun_card_usage_supply_gap_eda",
+        / "data/processed/card_usage_supply_gap_eda",
     }
 
 

@@ -22,7 +22,7 @@ notebooks/exploratory_eda/kim_sunghyun/
 - 전체 실행 파일: `run_kim_sunghyun_eda.py`
 - 공통 원자료 복원·품질검사·저장 기능: `_common.py`
 - 분석별 계산·결과표·그래프: `eda_01`~`eda_04`
-- 로컬 결과: `data/processed/kim_sunghyun_card_usage_supply_gap_eda/`
+- 로컬 결과: `data/processed/card_usage_supply_gap_eda/`
 
 ## 수요·선호 머신러닝 노트북
 
@@ -97,18 +97,18 @@ python notebooks/exploratory_eda/kim_sunghyun/run_kim_sunghyun_eda.py
 ## 핵심 산출물
 
 ```text
-data/processed/kim_sunghyun_card_usage_supply_gap_eda/
+data/processed/card_usage_supply_gap_eda/
 ├── figures/
-│   ├── kim_sunghyun_01_annual_card_usage_and_category_diversity_trends.png
-│   ├── kim_sunghyun_02_district_five_year_utilization_supply_diagnostic.png
-│   ├── kim_sunghyun_03_category_usage_supply_gap_heatmap.png
-│   └── kim_sunghyun_04_merchant_supply_utilization_correlation_sensitivity.png
+│   ├── 01_annual_card_usage_and_category_diversity_trends.png
+│   ├── 02_district_five_year_utilization_supply_diagnostic.png
+│   ├── 03_category_usage_supply_gap_heatmap.png
+│   └── 04_merchant_supply_utilization_correlation_sensitivity.png
 └── tables/
-    ├── kim_sunghyun_annual_card_issuance_usage_utilization_metrics.csv
-    ├── kim_sunghyun_annual_category_concentration_diversity_metrics.csv
-    ├── kim_sunghyun_district_five_year_utilization_supply_diagnostic.csv
-    ├── kim_sunghyun_category_usage_supply_gap_candidates.csv
-    └── kim_sunghyun_merchant_supply_utilization_correlation_sensitivity.csv
+    ├── annual_card_issuance_usage_utilization_metrics.csv
+    ├── annual_category_concentration_diversity_metrics.csv
+    ├── district_five_year_utilization_supply_diagnostic.csv
+    ├── category_usage_supply_gap_candidates.csv
+    └── merchant_supply_utilization_correlation_sensitivity.csv
 ```
 
 - 자치구 종합표는 최종 취약지역이 아니라 추가 검토 우선순위를 정하는 예비 진단입니다.

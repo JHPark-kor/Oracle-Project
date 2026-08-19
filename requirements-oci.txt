@@ -1,0 +1,4 @@
+# OCI integration dependencies tested with Python 3.13.
+oci==2.184.2
+oci-cli==3.90.3
+oracledb==4.0.2

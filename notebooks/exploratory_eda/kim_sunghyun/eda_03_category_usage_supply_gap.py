@@ -21,8 +21,8 @@ from _common import (
 )
 
 
-TABLE_NAME = "kim_sunghyun_category_usage_supply_gap_candidates.csv"
-FIGURE_NAME = "kim_sunghyun_03_category_usage_supply_gap_heatmap.png"
+TABLE_NAME = "category_usage_supply_gap_candidates.csv"
+FIGURE_NAME = "03_category_usage_supply_gap_heatmap.png"
 MISMATCH_THRESHOLD = 1.0
 TOP_CANDIDATES_PER_CATEGORY = 3
 

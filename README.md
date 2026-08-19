@@ -126,6 +126,7 @@ After cloning, place the shared data files under the paths described in [`metada
 
 ## Key Documents
 
+- [`docs/oci_quickstart.md`](docs/oci_quickstart.md): OCI MNCDEV·Wallet·VS Code 연결 빠른 사용법
 - [`metadata/data_metadata.md`](metadata/data_metadata.md): source data path and description
 - [`docs/preference_analysis.md`](docs/preference_analysis.md): 만족활동 기반 선호예측·공간 적용 실행 및 해석
 - [`models/preference_analysis/v1/README.md`](models/preference_analysis/v1/README.md): 팀 전달용 선호모델·H3SFCA 결합 계약

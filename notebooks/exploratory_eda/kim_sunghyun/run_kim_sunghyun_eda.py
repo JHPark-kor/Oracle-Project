@@ -32,13 +32,27 @@ def run_pipeline(
     *,
     create_plots: bool = True,
     permutations: int = DEFAULT_PERMUTATIONS,
+    usage_backend: str = "local",
+    merchant_backend: str = "local",
+    oracle_connection=None,
 ) -> dict[str, object]:
     """Load each source once and run EDA 01 through EDA 04."""
 
     root = project_root or find_project_root(Path(__file__).resolve().parent)
     paths = default_paths(root)
 
-    usage, usage_quality = load_usage_data(paths["usage_file"])
+    if usage_backend == "local":
+        usage, usage_quality = load_usage_data(paths["usage_file"])
+    elif usage_backend == "oracle":
+        if oracle_connection is None:
+            raise ValueError("Oracle 이용실적을 읽으려면 DB 연결이 필요합니다.")
+        from src.data_access.card_usage import (
+            load_usage_data_from_oracle,
+        )
+
+        usage, usage_quality = load_usage_data_from_oracle(oracle_connection)
+    else:
+        raise ValueError(f"지원하지 않는 카드 이용 backend입니다: {usage_backend}")
     failed_quality = usage_quality.loc[~usage_quality["passed"]]
     if not failed_quality.empty:
         failed_checks = ", ".join(failed_quality["check"].astype(str).unique())
@@ -46,7 +60,20 @@ def run_pipeline(
             "이용실적 품질 점검 실패로 EDA를 중단합니다: " f"{failed_checks}"
         )
 
-    _, merchants, merchant_quality = load_merchant_data(paths["merchant_file"])
+    if merchant_backend == "local":
+        _, merchants, merchant_quality = load_merchant_data(paths["merchant_file"])
+    elif merchant_backend == "oracle":
+        if oracle_connection is None:
+            raise ValueError("Oracle 가맹점을 읽으려면 DB 연결이 필요합니다.")
+        from src.data_access.merchant import (
+            load_merchant_data_from_oracle,
+        )
+
+        merchants, merchant_quality = load_merchant_data_from_oracle(
+            oracle_connection
+        )
+    else:
+        raise ValueError(f"지원하지 않는 가맹점 backend입니다: {merchant_backend}")
     merchant_supply = build_merchant_supply(merchants)
     usage_supply = build_usage_supply_relationship(usage, merchant_supply)
 
@@ -93,6 +120,8 @@ def run_pipeline(
         "category_priority": category["candidates"],
         "sensitivity": sensitivity["sensitivity"],
         "paths": output_paths,
+        "usage_backend": usage_backend,
+        "merchant_backend": merchant_backend,
     }
 
 
@@ -102,7 +131,7 @@ def _print_completion_summary(result: dict[str, object]) -> None:
     output_paths = result["paths"]
     table_count = sum(Path(path).suffix == ".csv" for path in output_paths.values())
     figure_count = sum(Path(path).suffix == ".png" for path in output_paths.values())
-    print("[완료] 김성현 문화누리카드 EDA 01~04")
+    print("[완료] 문화누리카드 EDA 01~04")
     print(f"- 이용실적 품질검사 실패: {int((~result['quality']['passed']).sum())}건")
     print(f"- 생성 표: {table_count}개")
     print(f"- 생성 이미지: {figure_count}개")
