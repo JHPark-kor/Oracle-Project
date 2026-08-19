@@ -6,7 +6,7 @@
 
 대시보드 시연을 원한다면? 📥 다운로드 [대시보드 공유 파일](https://github.com/JHPark-kor/Oracle-Project/raw/main/docs/share/mnc_dashboard_share.zip)
 
-발표 자료는 여기에 📄 발표자료 PDF (업로드 예정)
+발표 자료는 여기에 📄 발표자료 PDF [발표 자료 pdf](
 
 ## Project Goal
 
