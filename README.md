@@ -6,7 +6,7 @@
 
 대시보드 시연을 원한다면? 📥 다운로드 [대시보드 공유 파일](https://github.com/JHPark-kor/Oracle-Project/raw/main/docs/share/mnc_dashboard_share.zip)
 
-발표 자료는 여기에 📄 발표자료 PDF [발표 자료 pdf](https://github.com/JHPark-kor/Oracle-Project/blob/main/docs/share/%EC%98%A4%EB%9D%BC%ED%81%B4PPT_git_share.pdf)
+발표 자료는 여기에 📄 다운로드 [성과공유회 발표자료 PDF](https://github.com/JHPark-kor/Oracle-Project/raw/main/docs/presentation.pdf)
 
 ## Project Goal
 
@@ -55,11 +55,11 @@ flowchart LR
 
 ## Presentation PDF
 
-발표자료 PDF는 최종본 완성 후 이 위치에 추가할 예정입니다.
+발표자료 PDF는 아래 파일에서 확인할 수 있습니다.
 
 | Material | Link |
 | --- | --- |
-| Final Presentation PDF | `docs/presentation.pdf` 예정 |
+| Final Presentation PDF | [`docs/presentation.pdf`](docs/presentation.pdf) |
 
 ## Repository Structure
 
