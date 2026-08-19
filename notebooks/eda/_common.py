@@ -1,4 +1,4 @@
-"""Shared data loading, validation, and output helpers for Kim Sunghyun's EDA."""
+"""Shared data loading, validation, and output helpers for Culture Nuri Card EDA."""
 
 from __future__ import annotations
 
@@ -202,7 +202,7 @@ def save_figure_with_source_metadata(
         dpi=180,
         bbox_inches="tight",
         metadata={
-            "Author": "Kim Sunghyun / Oracle-Project",
+            "Author": "Oracle-Project",
             "Source": source_urls,
             "Description": (
                 "Culture Nuri Card EDA. Exact local source-file checksums and "

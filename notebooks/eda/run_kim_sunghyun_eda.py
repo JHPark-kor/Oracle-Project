@@ -1,4 +1,4 @@
-"""Run all four Kim Sunghyun Culture Nuri Card EDA analyses."""
+"""Run all four Culture Nuri Card EDA analyses."""
 
 from __future__ import annotations
 
@@ -142,7 +142,7 @@ def main() -> None:
     try:
         result = run_pipeline()
     except Exception as error:
-        print(f"[실패] 김성현 EDA 실행 중 오류가 발생했습니다: {error}", file=sys.stderr)
+        print(f"[실패] EDA 실행 중 오류가 발생했습니다: {error}", file=sys.stderr)
         raise
     _print_completion_summary(result)
 
